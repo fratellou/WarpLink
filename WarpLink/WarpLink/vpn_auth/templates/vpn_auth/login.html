@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarpLink - Вход и регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="fav.ico" type="image">
+</head>
+<body class="auth-page">
+    <div class="particles"></div>
+    
+    <div class="auth-container">
+        <div class="auth-decoration">
+            <div class="portal-animation">
+                <div class="portal-core"></div>
+                <div class="portal-ring"></div>
+            </div>
+            <h1 class="warp-link-text">WarpLink</h1>
+            <p class="portal-subtitle">Квантово-защищённые соединения</p>
+            
+            <div class="portal-gate-effect">
+                <div class="gate-rings"></div>
+                <div class="gate-core"></div>
+            </div>
+        </div>
+        
+        <div class="auth-forms">
+            <div class="form-container active" id="login-form">
+                <h2 class="neon-title">Вход в портал</h2>
+                
+                <form method="post" action="{% url 'login' %}" class="authentication-form">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            placeholder="Имя пользователя" 
+                            required
+                            class="portal-input"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            type="password" 
+                            name="password" 
+                            placeholder="Пароль" 
+                            required
+                            class="portal-input"
+                        >
+                    </div>
+                    
+                    <button type="submit" class="portal-btn">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </button>
+                    
+                    <div class="auth-links">
+                        <a href="{% url 'register' %}">Создать аккаунт</a>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="form-container" id="register-form">
+                <h2 class="neon-title">Создание портала</h2>
+                
+                <form method="post" action="{% url 'register' %}" class="authentication-form">
+                    {% csrf_token %}
+                    
+                    <div class="input-group">
+                        <i class="fas fa-user-plus"></i>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            placeholder="Придумайте логин" 
+                            required
+                            class="portal-input"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            placeholder="Ваш email" 
+                            required
+                            class="portal-input"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            type="password" 
+                            name="password1" 
+                            placeholder="Пароль" 
+                            required
+                            class="portal-input"
+                        >
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            type="password" 
+                            name="password2" 
+                            placeholder="Повторите пароль" 
+                            required
+                            class="portal-input"
+                        >
+                    </div>
+                    
+                    <button type="submit" class="portal-btn">
+                        <i class="fas fa-portal-enter"></i> Зарегистрироваться
+                    </button>
+                    
+                    <div class="auth-links">
+                        <a href="#" class="switch-form" data-target="login-form">
+                            Войти в аккаунт
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Переключение между формами
+        document.querySelectorAll('.switch-form').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = e.target.dataset.target;
+                
+                document.querySelectorAll('.form-container').forEach(form => {
+                    form.classList.remove('active');
+                });
+                
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

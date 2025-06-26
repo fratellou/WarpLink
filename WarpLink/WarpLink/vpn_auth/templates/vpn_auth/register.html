@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarpLink - Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="fav.ico" type="image">
+</head>
+<body class="auth-page">
+    <div class="particles"></div>
+    
+    <div class="auth-container">
+        <div class="auth-decoration">
+            <div class="portal-animation">
+                <div class="portal-core"></div>
+                <div class="portal-ring"></div>
+            </div>
+            <h1 class="warp-link-text">WarpLink</h1>
+            <p class="portal-subtitle">Создание нового портала</p>
+            
+            <div class="portal-gate-effect">
+                <div class="gate-rings"></div>
+                <div class="gate-core"></div>
+            </div>
+        </div>
+        
+        <div class="auth-forms">
+            <div class="form-container active">
+                <h2 class="neon-title">Регистрация</h2>
+                
+                <form method="post" class="authentication-form">
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                        <div class="form-error">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="input-group">
+                        <i class="fas fa-user-plus"></i>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="field-error">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="field-error">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="field-error">{{ form.password1.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="field-error">{{ form.password2.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="portal-btn">
+                        <i class="fas fa-portal-enter"></i> Создать аккаунт
+                    </button>
+                    
+                    <div class="auth-links">
+                        <a href="{% url 'login' %}">Уже есть аккаунт? Войти</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
