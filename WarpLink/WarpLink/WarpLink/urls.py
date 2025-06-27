@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('vpn_auth/', include('vpn_auth.urls')),
     path('home/', include('homepage.urls')),
-    path('generate/', include('conf_generator.urls')),
+    path('download/', include('conf_generator.urls')),
     path('', RedirectView.as_view(url='/vpn_auth/login/', permanent=True)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

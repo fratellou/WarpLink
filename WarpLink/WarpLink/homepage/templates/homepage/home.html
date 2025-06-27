@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static '/css/main.css' %}">
+    <title>WarpLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </head>
+  <body>
+    <div class="particles"></div>
+
+    <header>
+      <div class="header-content">
+        <div class="logo-container">
+          <div class="portal-animation">
+            <div class="portal-core"></div>
+            <div class="portal-ring"></div>
+          </div>
+          <h1 class="warp-link-text">WarpLink</h1>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="user-info">
+            {% if user.is_authenticated %}
+              <div class="user-avatar">
+                {{ user.username|first|upper }}
+              </div>
+              <span class="username">{{ user.username }}</span>
+              <a href="{% url 'logout' %}" class="auth-link">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+              </a>
+            {% else %}
+              <div class="auth-actions">
+                <a href="{% url 'login' %}" class="auth-link">
+                  <i class="fas fa-sign-in-alt"></i> Войти
+                </a>
+                <a href="{% url 'register' %}" class="auth-link">
+                  <i class="fas fa-user-plus"></i> Регистрация
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </header>
+
+    <main>
+      <div class="hero">
+        <h2 class="neon-title">Войдите в портал безопасности</h2>
+        <p>Сверхбыстрый VPN с протоколом OpenVPN</p>
+        
+        <div class="server-status">
+        <div class="status-item">
+          <div>Статус сервера 217.71.129.139</div>
+          <div id="server-status-value" class="status-value status-offline">Проверка...</div>
+        </div>
+        <div class="status-item">
+          <div>Подключено пользователей</div>
+          <div id="connected-users" class="status-value">0</div>
+        </div>
+      </div>
+
+        <div class="portal-gate">
+          <div class="buttons-container">
+            <button class="button-link portal-btn" id="connect-btn">
+              <i class="fas fa-plug"></i> Подключиться
+            </button>
+            <a href="{% url 'download_config' %}" class="button-link portal-btn">
+              <i class="fas fa-file-download"></i> Скачать конфиг
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+      <div id="connectModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 style="text-align: center; margin-bottom: 20px;">Как подключиться к VPN</h3>
+      <ol style="line-height: 1.8;">
+        <li>Скачайте конфигурационный файл, нажав на кнопку "Скачать конфиг"</li>
+        <li>Установите OpenVPN GUI, если у вас его нет</li>
+        <li>Поместите скачанный файл (WarpLink.ovpn) в папку config программы OpenVPN:
+          <ul>
+            <li>Windows: <code>C:\Program Files\OpenVPN\config\</code></li>
+            <li>Linux: <code>/etc/openvpn/</code></li>
+            <li>macOS: <code>/usr/local/etc/openvpn/</code></li>
+          </ul>
+        </li>
+        <li>Запустите OpenVPN GUI</li>
+        <li>Щелкните правой кнопкой мыши на иконке в трее</li>
+        <li>Выберите файл WarpLink.ovpn</li>
+        <li>Нажмите "Connect"</li>
+      </ol>
+      <div style="margin-top: 20px; text-align: center;">
+        <button class="button-link portal-btn" onclick="document.getElementById('connectModal').style.display='none'">
+          Понятно
+        </button>
+      </div>
+    </div>
+  </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="copyright">
+          <h5>WarpLink, 2025</h5>
+          <p>Квантово-защищённые соединения</p>
+        </div>
+      </div>
+    </footer>
+  
+    <script>
+    // Модальное окно подключения
+    const modal = document.getElementById("connectModal");
+    const connectBtn = document.getElementById("connect-btn");
+    const span = document.getElementsByClassName("close")[0];
+    
+    connectBtn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Функция обновления статуса сервера
+    function updateServerStatus() {
+      fetch("{% url 'server_status' %}")
+        .then(response => {
+            if (!response.ok) {
+              throw new Error('Ошибка сети');
+            }
+            return response.json();
+        })
+        .then(data => {
+          const statusElem = document.getElementById('server-status-value');
+          const usersElem = document.getElementById('connected-users');
+          
+          if (data.status === 'active') {
+            statusElem.textContent = 'Активен';
+            statusElem.className = 'status-value status-online';
+          } else {
+            statusElem.textContent = 'Не активен';
+            statusElem.className = 'status-value status-offline';
+          }
+          
+          usersElem.textContent = data.clients_count;
+        })
+        .catch(error => {
+          console.error('Ошибка при получении статуса:', error);
+        });
+    }
+
+    // Обновляем статус при загрузке и каждые 30 секунд
+    document.addEventListener('DOMContentLoaded', function() {
+      updateServerStatus();
+      setInterval(updateServerStatus, 30000);
+    });
+  </script>
+
+  </body>
+</html> 

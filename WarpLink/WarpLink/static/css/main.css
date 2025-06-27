@@ -42,7 +42,6 @@ body {
     to { background-position: 1000px 0, 1040px 40px; }
 }
 
-/* Шапка с логотипом */
 header {
     padding: 15px 30px;
     background: rgba(25, 15, 35, 0.85);
@@ -59,6 +58,12 @@ header {
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
 }
 
 .logo-container {
@@ -410,4 +415,78 @@ transition: all 0.3s ease;
 background: rgba(45, 25, 55, 0.8);
 color: #ffffff;
 box-shadow: 0 0 10px rgba(154, 9, 222, 0.5);
+}
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+    }
+    
+    .modal-content {
+      background-color: #0f0f1b;
+      margin: 15% auto;
+      padding: 25px;
+      border: 1px solid #4a4a8a;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      color: #fff;
+      position: relative;
+      box-shadow: 0 0 30px rgba(100, 100, 255, 0.7);
+    }
+    
+    .close {
+      color: #aaa;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .close:hover {
+      color: #fff;
+    }
+    
+.server-status {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(25, 25, 50, 0.6);
+  border-radius: 10px;
+  border: 1px solid #4a4a8a;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.status-item {
+  text-align: center;
+}
+
+.status-value {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.status-online {
+  color: #5af78e;
+  text-shadow: 0 0 10px rgba(90, 247, 142, 0.7);
+}
+
+.status-offline {
+  color: #ff6b6b;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.7);
+}
+
+.status-error {
+  color: #ffcc00;
+  text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
 }

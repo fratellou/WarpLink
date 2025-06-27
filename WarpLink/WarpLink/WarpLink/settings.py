@@ -39,8 +39,8 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'vpn_auth.User'
-# LOGIN_URL = '/auth/login/'
-# LOGIN_REDIRECT_URL = '/homepage/'
+LOGIN_URL = '/vpn_auth/login/'
+LOGIN_REDIRECT_URL = '/home/'
 
 ROOT_URLCONF = 'WarpLink.urls'
 
