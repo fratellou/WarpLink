@@ -1,11 +1,10 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-import paramiko
-from io import BytesIO
-from django.http import FileResponse
-from django.contrib.auth.decorators import login_required
 import os
-from django.http import JsonResponse
+from io import BytesIO
+
+import paramiko
+from django.contrib.auth.decorators import login_required
+from django.http import FileResponse, HttpResponse, JsonResponse
+from django.shortcuts import render
 
 
 def home(request):
