@@ -52,6 +52,13 @@ def download_config(request):
 
 
 def server_status(request):
+    remote_ip = request.META.get('REMOTE_ADDR', '')
+    if remote_ip.startswith('10.8.0.'):
+        return JsonResponse({
+            'status': 'vpn_connected',
+            'ip': remote_ip
+        })
+
     # Параметры подключения к VPN серверу
     SSH_HOST = os.getenv('SSH_HOST')
     SSH_PORT = int(os.getenv('SSH_PORT'))
@@ -77,10 +84,9 @@ def server_status(request):
 
         # Подсчет подключенных пользователей
         stdin, stdout, stderr = ssh.exec_command(
-            f"grep -c '^CLIENT_LIST' {STATUS_FILE} || echo 0")
-        clients_count = int(stdout.read().decode().strip() or 0)
-
-        ssh.close()
+            f"grep '^CLIENT_LIST' {STATUS_FILE}")
+        clients = stdout.readlines()
+        clients_count = len(clients)
 
         return JsonResponse({
             'status': 'active' if service_status == 'active' else 'inactive',

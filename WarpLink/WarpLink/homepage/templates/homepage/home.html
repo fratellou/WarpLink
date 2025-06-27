@@ -135,29 +135,34 @@
     // Функция обновления статуса сервера
     function updateServerStatus() {
       fetch("{% url 'server_status' %}")
-        .then(response => {
-            if (!response.ok) {
-              throw new Error('Ошибка сети');
-            }
-            return response.json();
-        })
-        .then(data => {
-          const statusElem = document.getElementById('server-status-value');
-          const usersElem = document.getElementById('connected-users');
-          
-          if (data.status === 'active') {
-            statusElem.textContent = 'Активен';
-            statusElem.className = 'status-value status-online';
-          } else {
-            statusElem.textContent = 'Не активен';
-            statusElem.className = 'status-value status-offline';
-          }
-          
-          usersElem.textContent = data.clients_count;
-        })
-        .catch(error => {
-          console.error('Ошибка при получении статуса:', error);
-        });
+    .then(response => {
+      if (!response.ok) throw new Error('Ошибка сети');
+      return response.json();
+    })
+    .then(data => {
+      const statusElem = document.getElementById('server-status-value');
+      const usersElem = document.getElementById('connected-users');
+
+      if (data.status === 'vpn_connected') {
+        statusElem.textContent = `Соединение установлено (${data.ip})`;
+        statusElem.className = 'status-value status-online';
+        usersElem.textContent = '-';
+        return;
+      }
+
+      if (data.status === 'active') {
+        statusElem.textContent = 'Активен';
+        statusElem.className = 'status-value status-online';
+      } else {
+        statusElem.textContent = 'Не активен';
+        statusElem.className = 'status-value status-offline';
+      }
+
+      usersElem.textContent = data.clients_count;
+    })
+    .catch(error => {
+      console.error('Ошибка при получении статуса:', error);
+    });
     }
 
     // Обновляем статус при загрузке и каждые 30 секунд
