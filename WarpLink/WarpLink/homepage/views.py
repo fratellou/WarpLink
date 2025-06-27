@@ -38,7 +38,9 @@ def download_config(request):
         # Отправляем файл пользователю
         response = FileResponse(BytesIO(file_content),
                                 content_type='application/ovpn')
-        response['Content-Disposition'] = 'attachment; filename="WarpLink.ovpn"'
+        response[
+            'Content-Disposition'
+        ] = 'attachment; filename="WarpLink.ovpn"'
         return response
 
     except Exception as e:

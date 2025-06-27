@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vpn_auth.apps.VpnAuthConfig',
     'homepage.apps.HomepageConfig',
-    'conf_generator.apps.ConfGeneratorConfig',
 ]
 
 MIDDLEWARE = [
